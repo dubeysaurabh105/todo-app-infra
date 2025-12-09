@@ -1,0 +1,51 @@
+trigger:
+pool: Default 
+stages:
+  - stage: 
+    jobs:
+      - job: 
+        steps:
+        - task: TerraformInstaller@1
+          inputs:
+            terraformVersion: 'latest'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/enb/dev'
+            backendServiceArm: 'to-do-svc'
+            backendAzureRmOverrideSubscriptionID: '3d1ce785-6c4d-4565-bb5e-3b46939260a6'
+            backendAzureRmResourceGroupName: 'my_todo_appp'
+            backendAzureRmStorageAccountName: 'gabbr21'
+            backendAzureRmContainerName: 'container'
+            backendAzureRmKey: 'terraform.tfstate'
+
+  - stage: 
+    jobs:
+      - job: 
+        steps:
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'init'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+            backendServiceArm: 'to-do-svc'
+            backendAzureRmOverrideSubscriptionID: '3d1ce785-6c4d-4565-bb5e-3b46939260a6'
+            backendAzureRmResourceGroupName: 'my_todo_appp'
+            backendAzureRmStorageAccountName: 'gabbr21'
+            backendAzureRmContainerName: 'container'
+            backendAzureRmKey: 'terraform.tfstate'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'plan'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+            environmentServiceNameAzureRM: 'to-do-svc'
+            environmentAzureRmOverrideSubscriptionID: '3d1ce785-6c4d-4565-bb5e-3b46939260a6'
+        - task: TerraformTask@5
+          inputs:
+            provider: 'azurerm'
+            command: 'apply'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
+            environmentServiceNameAzureRM: 'to-do-svc'
+            environmentAzureRmOverrideSubscriptionID: '3d1ce785-6c4d-4565-bb5e-3b46939260a6'

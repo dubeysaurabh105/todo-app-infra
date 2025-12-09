@@ -7,12 +7,12 @@ stages:
         steps:
         - task: TerraformInstaller@1
           inputs:
-            terraformVersion: 'latest'
-        - task: TerraformTask@5
+            terraformVersion: '1.5.7'
+        - task: TerraformTask@4
           inputs:
             provider: 'azurerm'
             command: 'init'
-            workingDirectory: '$(System.DefaultWorkingDirectory)/enb/dev'
+            workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
             backendServiceArm: 'to-do-svc'
             backendAzureRmOverrideSubscriptionID: '3d1ce785-6c4d-4565-bb5e-3b46939260a6'
             backendAzureRmResourceGroupName: 'my_todo_appp'
@@ -24,7 +24,7 @@ stages:
     jobs:
       - job: 
         steps:
-        - task: TerraformTask@5
+        - task: TerraformTask@4
           inputs:
             provider: 'azurerm'
             command: 'init'
@@ -35,14 +35,14 @@ stages:
             backendAzureRmStorageAccountName: 'gabbr21'
             backendAzureRmContainerName: 'container'
             backendAzureRmKey: 'terraform.tfstate'
-        - task: TerraformTask@5
+        - task: TerraformTask@4
           inputs:
             provider: 'azurerm'
             command: 'plan'
             workingDirectory: '$(System.DefaultWorkingDirectory)/env/dev'
             environmentServiceNameAzureRM: 'to-do-svc'
             environmentAzureRmOverrideSubscriptionID: '3d1ce785-6c4d-4565-bb5e-3b46939260a6'
-        - task: TerraformTask@5
+        - task: TerraformTask@4
           inputs:
             provider: 'azurerm'
             command: 'apply'
